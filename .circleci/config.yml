@@ -1,0 +1,52 @@
+# LinguaGraph M5 — independent exact-candidate hosted Gate 2 proof.
+#
+# This repository is proof infrastructure only: it holds no application source.
+# The single job below checks out the proof repository, then invokes
+# scripts/run-m5-proof.sh, which resolves, verifies and checks out the EXACT
+# frozen M5 candidate from Pacchifans69/LinguaGraph and runs the complete
+# backend/frontend/E2E verification surface against real PostgreSQL 18.
+#
+# No application CI logic lives here beyond invoking the proof script.
+
+version: 2.1
+
+jobs:
+  m5-exact-candidate-proof:
+    machine:
+      image: ubuntu-2404:current
+    resource_class: medium
+    working_directory: ~/project
+    environment:
+      EXPECTED_PROOF_REPOSITORY: "Pacchifans69/linguagraph-m5-proof"
+      EXPECTED_PROOF_BRANCH: "main"
+      CANDIDATE_REPOSITORY_URL: "https://github.com/Pacchifans69/LinguaGraph.git"
+      EXPECTED_CANDIDATE_REPOSITORY: "Pacchifans69/LinguaGraph"
+      EXPECTED_CANDIDATE_BRANCH: "m5-human-reviewed-pos-annotation-foundation"
+      EXPECTED_CANDIDATE_SHA: "285241dc5266f6ed5e1f8a9496662383ad01f536"
+      EXPECTED_CANDIDATE_TREE: "d82284c7fdd6bbde50dafbca243a47c14bbf9cdf"
+      EXPECTED_FROZEN_BASE: "11176df91dd9dc3d1169e4bef41808b0abfa8656"
+      EXPECTED_MAIN_SHA: "11176df91dd9dc3d1169e4bef41808b0abfa8656"
+      EXPECTED_ALEMBIC_HEAD: "0006"
+      UV_PYTHON: "3.13"
+      DATABASE_URL: "postgresql+psycopg://postgres:postgres@127.0.0.1:5432/postgres"
+      TEST_DATABASE_URL: "postgresql+psycopg://postgres:postgres@127.0.0.1:5432/postgres"
+    steps:
+      - checkout
+      - run:
+          name: "M5 — execute exact-candidate hosted proof"
+          no_output_timeout: 20m
+          command: |
+            mkdir -p proof-artifacts
+            set -o pipefail
+            bash scripts/run-m5-proof.sh 2>&1 | tee proof-artifacts/command-transcript.log
+      - store_artifacts:
+          path: proof-artifacts
+          destination: m5-external-proof
+
+workflows:
+  m5-exact-candidate-proof:
+    jobs:
+      - m5-exact-candidate-proof:
+          filters:
+            branches:
+              only: main
