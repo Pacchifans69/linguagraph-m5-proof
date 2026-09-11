@@ -23,28 +23,57 @@ checkout.
 | --- | --- |
 | Application repository | `Pacchifans69/LinguaGraph` |
 | Application candidate branch | `m5-human-reviewed-pos-annotation-foundation` |
-| Exact candidate SHA | `285241dc5266f6ed5e1f8a9496662383ad01f536` |
-| Exact candidate tree | `d82284c7fdd6bbde50dafbca243a47c14bbf9cdf` |
+| Exact candidate SHA | `139f3349b8556f5dd13d5c2d8808fda4a79dc819` |
+| Exact candidate tree | `179aba060d5e798ace46ea6bed0a7c496a50e9ad` |
 | Frozen M5 base | `11176df91dd9dc3d1169e4bef41808b0abfa8656` |
 | Expected application `main` | `11176df91dd9dc3d1169e4bef41808b0abfa8656` |
 | Expected Alembic head | `0006` |
 
-The candidate is expected to be **9 commits ahead / 0 behind** the frozen base.
+The candidate is expected to be **10 commits ahead / 0 behind** the frozen base.
 
 ## 2. Canonical GitHub Actions diagnostic — why this proof exists
 
-The canonical exact-candidate GitHub Actions run for this candidate is
-**run `34493729495`**. It targeted this exact candidate
-(`head_sha = 285241dc5266f6ed5e1f8a9496662383ad01f536`) and concluded
+The current canonical exact-candidate GitHub Actions run for this candidate is
+**run `34564666636`**. It targeted exactly this corrected candidate
+(`head_sha = 139f3349b8556f5dd13d5c2d8808fda4a79dc819`) and concluded
 `failure`, but it **failed before any repository-defined workflow step began**:
 the job reported `steps = []` and its logs were unavailable
 (`BlobNotFound`). No repository-defined command of the canonical workflow ever
 executed.
 
 This work is authorized under the **Human-approved M5-specific External
-Infrastructure Exception**. The exception waives **only** successful execution
-on the GitHub-hosted runner. It does **not** waive any execution, provenance,
-environment or integrity requirement listed below.
+Infrastructure Exception**, which the Human has **explicitly re-approved for
+this corrected exact candidate** (`139f3349b8556f5dd13d5c2d8808fda4a79dc819`,
+tree `179aba060d5e798ace46ea6bed0a7c496a50e9ad`). The earlier M5 exception
+approval was granted for the superseded candidate; it did **not** silently carry
+forward, and this retargeted proof runs under that explicit re-approval. The
+exception waives **only** successful execution on the GitHub-hosted runner. It
+does **not** waive any execution, provenance, environment or integrity
+requirement listed below.
+
+### Superseded candidate — historical build #1 evidence (retained)
+
+Proof build **#1** (`ci/circleci: m5-exact-candidate-proof`) succeeded, and it
+proved the PREVIOUS application candidate only:
+
+| Historical fact | Value |
+| --- | --- |
+| Old application candidate (superseded) | `285241dc5266f6ed5e1f8a9496662383ad01f536` |
+| Old candidate tree (superseded) | `d82284c7fdd6bbde50dafbca243a47c14bbf9cdf` |
+| Old proof commit | `4f9040d3c4fc3e7aa88640965c40ee9e328317d6` |
+| Old proof tree | `43304d0b0ca2a70c78b8e793a0452a6f69d7e384` |
+| Old canonical GitHub Actions run | `34493729495` — failure before any repository-defined step (`steps = []`, logs `BlobNotFound`) |
+| CircleCI build | `#1` |
+| Result | **SUCCESS** |
+
+This record is **retained historical evidence**; it is not rewritten or
+falsified. Build #1 proved **only** the superseded candidate
+`285241dc5266f6ed5e1f8a9496662383ad01f536` (tree
+`d82284c7fdd6bbde50dafbca243a47c14bbf9cdf`), and it does **NOT** prove the
+corrected candidate `139f3349b8556f5dd13d5c2d8808fda4a79dc819` (tree
+`179aba060d5e798ace46ea6bed0a7c496a50e9ad`), whose tree differs. The retargeted
+proof — proof build **#2** — is intended to establish exact hosted evidence for
+the corrected candidate.
 
 ### The exception explicitly does NOT waive
 
